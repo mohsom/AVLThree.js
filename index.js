@@ -3,21 +3,35 @@
  */
 'use strict';
 const readline = require('readline');
-let AVLThree = require('./AVLThree');
+let AVLTree = require('./avl-tree');
 
-let three = new AVLThree();
+let tree = new AVLTree();
 
 const rl = readline.createInterface({
     input: process.stdin
 });
 
-rl.on('line', (input)=> {
-    if(input === '') {
-        three.logThree();
+let array =[];
 
-        three.logThree();
-        rl.close();
-    } else {
-        three.addElement(input);
+rl.on('line', (input)=> {
+     if(input === '') {
+         rl.close();
+     } else {
+         array.push(Number(input));
+     }
+});
+
+rl.on('close', ()=>{
+    array.forEach((key) => {
+        tree.insert(key);
+    });
+    tree.logTree();
+
+    let sortedArr = [];
+    while(!tree.isEmpty()) {
+        let number = tree.findMaximum();
+        sortedArr.push(number);
+        tree.delete(number);
     }
+    console.log(sortedArr);
 });
